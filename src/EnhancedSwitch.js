@@ -6,7 +6,6 @@ const _iCheck = 'iCheck';
 const _iCheckHelper = _iCheck + '-helper';
 
 class EnhancedSwitch extends React.Component {
-
   static propTypes = {
     inputType: PropTypes.string.isRequired,
 
@@ -89,9 +88,6 @@ class EnhancedSwitch extends React.Component {
     // increase clickable area by given % (negative number to decrease)
     increaseArea: PropTypes.string,
 
-    // true to set 'pointer' CSS cursor over enabled inputs and 'default' over disabled
-    cursor: PropTypes.bool,
-
     // set true to inherit original input's class name
     inheritClass: PropTypes.bool,
 
@@ -111,7 +107,6 @@ class EnhancedSwitch extends React.Component {
   };
 
   static defaultProps = {
-
     checkboxClass: 'icheckbox',
 
     // base class added to customized radio buttons
@@ -144,9 +139,6 @@ class EnhancedSwitch extends React.Component {
     // increase clickable area by given % (negative number to decrease)
     increaseArea: '',
 
-    // true to set 'pointer' CSS cursor over enabled inputs and 'default' over disabled
-    cursor: false,
-
     // set true to inherit original input's class name
     inheritClass: false,
 
@@ -177,7 +169,9 @@ class EnhancedSwitch extends React.Component {
 
   componentDidMount() {
     if (typeof navigator !== 'undefined') {
-      this._mobile = /ipad|iphone|ipod|android|blackberry|windows phone|opera mini|silk/i.test(navigator.userAgent);
+      this._mobile = /ipad|iphone|ipod|android|blackberry|windows phone|opera mini|silk/i.test(
+        navigator.userAgent,
+      );
     }
     this.adjustStyle();
     this.setIndeterminate();
@@ -207,7 +201,8 @@ class EnhancedSwitch extends React.Component {
       this.refs.checkbox.checked = newCheckedValue;
     } else {
       if (process.env.NODE_ENV !== 'production') {
-        let message = 'Cannot call set method while checked is defined as a property.';
+        let message =
+          'Cannot call set method while checked is defined as a property.';
         console.error(message); // eslint-disable-line
       }
     }
@@ -328,7 +323,6 @@ class EnhancedSwitch extends React.Component {
       inheritID,
       aria,
       insert,
-
       ...other,
     } = props;
 
@@ -346,7 +340,7 @@ class EnhancedSwitch extends React.Component {
 
     // Layer styles
     let offset = -area + '%';
-    let size = 100 + (area * 2) + '%';
+    let size = 100 + area * 2 + '%';
     let layer = {
       position: 'absolute',
       top: offset,
@@ -359,7 +353,7 @@ class EnhancedSwitch extends React.Component {
       background: '#fff',
       border: 0,
       opacity: 0,
-      cursor: disabled ? 'default' : 'pointer',
+      cursor: 'pointer',
     };
 
     // Choose how to hide input
@@ -385,9 +379,15 @@ class EnhancedSwitch extends React.Component {
     // let ariaID = _iCheck + '-' + Math.random().toString(36).substr(2, 6);
 
     let helper;
-    if (props.inputType === 'checkbox' && typeof props.indeterminateCheckboxClass !== 'undefined') {
+    if (
+      props.inputType === 'checkbox' &&
+      typeof props.indeterminateCheckboxClass !== 'undefined'
+    ) {
       indeterminateClass = props.indeterminateCheckboxClass;
-    } else if (props.inputType === 'radio' && typeof props.indeterminateRadioClass !== 'undefined') {
+    } else if (
+      props.inputType === 'radio' &&
+      typeof props.indeterminateRadioClass !== 'undefined'
+    ) {
       indeterminateClass = props.indeterminateRadioClass;
     }
 
@@ -423,30 +423,31 @@ class EnhancedSwitch extends React.Component {
     helper = (
       <ins
         className={_iCheckHelper}
-        style={ layer}
-        onClick={ this.handleHelperClick.bind(this)}
+        style={layer}
+        onClick={this.handleHelperClick.bind(this)}
       />
     );
 
     const inputElement = (
       <input
         {...other}
-
         ref="checkbox"
-        type={ props.inputType}
-        style={ hide}
+        type={props.inputType}
+        style={hide}
         name={name}
         value={value}
-        defaultChecked={ props.defaultChecked}
-        onChange={ this.handleChange.bind(this)}
-        onBlur={ this.handleBlur.bind(this)}
-        onFocus={ this.handleFocus.bind(this)}
+        defaultChecked={props.defaultChecked}
+        onChange={this.handleChange.bind(this)}
+        onBlur={this.handleBlur.bind(this)}
+        onFocus={this.handleFocus.bind(this)}
       />
     );
 
     let insertElement = props.insert;
     if (insertElement && !React.isValidElement(insertElement)) {
-      insertElement = <div dangerouslySetInnerHTML={{ __html: insertElement }}></div>;
+      insertElement = (
+        <div dangerouslySetInnerHTML={{ __html: insertElement }} />
+      );
     }
 
     const inputContainer = (
@@ -462,7 +463,9 @@ class EnhancedSwitch extends React.Component {
       return inputContainer;
     }
     if (!React.isValidElement(labelElement)) {
-      labelElement = <span dangerouslySetInnerHTML={{ __html: labelElement }}/>;
+      labelElement = (
+        <span dangerouslySetInnerHTML={{ __html: labelElement }} />
+      );
     }
 
     // Label events
